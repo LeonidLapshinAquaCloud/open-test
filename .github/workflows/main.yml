@@ -18,11 +18,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo latest tags: ${{ steps.get_all_repo_tags.outputs.data }}"
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.36.0
-        id: tag_action
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: false
-          DRY_RUN : false
-          RELEASE_BRANCHES: master, main
-      - run: "echo latest tags: ${{ steps.tag_action.outputs.data }}"
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
