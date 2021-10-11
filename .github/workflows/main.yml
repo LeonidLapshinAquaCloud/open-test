@@ -16,4 +16,13 @@ jobs:
           repo: open-test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: ${{ steps.get_all_repo_tags.outputs.data }}"
+      - run: "echo latest tags: ${{ steps.get_all_repo_tags.outputs.data }}"
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.36.0
+        id: tag_action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: false
+          DRY_RUN : false
+          RELEASE_BRANCHES: master, main
+      - run: "echo latest tags: ${{ steps.tag_action.outputs.data }}"
