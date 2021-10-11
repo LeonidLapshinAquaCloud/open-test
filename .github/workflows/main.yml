@@ -17,11 +17,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo latest tags: ${{ steps.get_all_repo_tags.outputs.data }}"
+
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest tags: ${{ steps.tag_version.outputs.new_tag }}"
+
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
