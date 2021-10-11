@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  tests:
+    runs-on: windows-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: get_all_repo_tags
+        with:
+          route: GET /repos/{owner}/{repo}/git/matching-refs/tags
+          owner: LeonidLapshinAquaCloud
+          repo: open-test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: ${{ steps.get_all_repo_tags.outputs.data }}"
