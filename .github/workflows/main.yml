@@ -17,7 +17,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-        echo latest tags: '${{ steps.get_all_repo_tags.outputs.data }}'
+          echo latest tags: '${{ steps.get_all_repo_tags.outputs.data }}'
 
       # - name: Bump version and push tag
       #   id: tag_version
