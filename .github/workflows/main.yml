@@ -25,7 +25,7 @@ jobs:
           echo "==="
           cat full_tag_list.txt | jq '.[].ref' | ForEach-Object {$_ -replace '"',''} | cut -d '/' -f 3 
           echo "==="
-          cat full_tag_list.txt | jq '.[].ref' | ForEach-Object {$_ -replace '"',''} | cut -d '/' -f 3 | Select-String -Pattern "refs/tags/v${{ env.AQUA_APP_VERSION }}"
+          cat full_tag_list.txt | jq '.[].ref' | ForEach-Object {$_ -replace '"',''} | cut -d '/' -f 3 | Select-String -Pattern "v${{ env.AQUA_APP_VERSION }}"
         if: contains(github.ref, 'release')
 
       # - name: Bump version and push tag
