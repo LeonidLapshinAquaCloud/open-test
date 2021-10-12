@@ -8,26 +8,27 @@ jobs:
   tests:
     runs-on: windows-latest
     steps:
-      # - uses: octokit/request-action@v2.x
-      #   id: get_all_repo_tags
+      - uses: octokit/request-action@v2.x
+        id: get_all_repo_tags
+        with:
+          route: GET /repos/{owner}/{repo}/git/matching-refs/tags
+          owner: LeonidLapshinAquaCloud
+          repo: open-test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+        echo latest tags: '${{ steps.get_all_repo_tags.outputs.data }}'
+
+      # - name: Bump version and push tag
+      #   id: tag_version
+      #   uses: mathieudutour/github-tag-action@v5.6
       #   with:
-      #     route: GET /repos/{owner}/{repo}/git/matching-refs/tags
-      #     owner: LeonidLapshinAquaCloud
-      #     repo: open-test
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - run: "echo latest tags: ${{ steps.get_all_repo_tags.outputs.data }}"
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      # - run: "echo latest tags: ${{ steps.tag_version.outputs.new_tag }}"
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest tags: ${{ steps.tag_version.outputs.new_tag }}"
-
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+      # - name: Create a GitHub release
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     tag: ${{ steps.tag_version.outputs.new_tag }}
+      #     name: Release ${{ steps.tag_version.outputs.new_tag }}
+      #     body: ${{ steps.tag_version.outputs.changelog }}
