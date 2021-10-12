@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, release* ]
 
 jobs:
   tests:
@@ -17,7 +17,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo '${{ steps.get_all_repo_tags.outputs.data }}'
+          echo ${{ steps.get_all_repo_tags.outputs.data }} > full_tag_list.txt
+          cat full_tag_list.txt | jq '.[].ref' | tr -d '"' | stdbuf -o0 cut -d '/' -f 3 > filtered_list.txt
+          cat filtered_list.txt
+        if: contains(github.ref, "release")
 
       # - name: Bump version and push tag
       #   id: tag_version
