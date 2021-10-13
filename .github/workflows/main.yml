@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests:
-    runs-on: windows-2022
+    runs-on: ubuntu-latest
     env:
       AQUA_APP_VERSION: "0.0"
     steps:
@@ -42,6 +42,7 @@ jobs:
         shell: pwsh
 
       - run: echo "${{ env.LASTTAG }}"
+        shell: pwsh
 
       # - name: Bump version and push tag
       #   id: tag_version
