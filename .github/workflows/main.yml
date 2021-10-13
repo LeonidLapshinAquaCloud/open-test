@@ -34,8 +34,9 @@ jobs:
 
           $latest++
 
-          $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + "$latest"
-          "TAG=$tag" >> $GITHUB_ENV
+          $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
+          echo $tag
+          echo "TAG=$tag" >> $GITHUB_ENV
 
         if: contains(github.ref, 'release')
         shell: pwsh
