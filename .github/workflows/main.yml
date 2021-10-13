@@ -27,11 +27,13 @@ jobs:
           | ForEach-Object {$_ -split "/"} `
           | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
+          echo $versions
 
           if ("${{ github.ref }}" -match "master") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -lt 100 } `
-            | Measure-Object).Maximum
+            | Measure-Object -Maximum).Maximum
+            echo $latest
 
             if($latest -eq 99) {
               Write-Output "No new minor versions available"
@@ -44,6 +46,7 @@ jobs:
             | Where-Object -FilterScript { $_ -gt 99 } `
             | Where-Object -FilterScript { $_ -lt 200 } `
             | Measure-Object -Maximum).Maximum
+            echo $latest
 
             if($latest -eq 199) {
               Write-Output "No new minor versions available"
@@ -57,14 +60,16 @@ jobs:
           if ("${{ github.ref }}" -match "feature") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 199 } `
-            | Measure-Object).Maximum
+            | Measure-Object -Maximum).Maximum
+            echo $latest
 
             if($latest -eq $NULL) {
               $latest = 200
             }
           }
-
+          echo $latest
           $latest++
+          echo $latest
           $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
           echo "TAG=$tag" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
         shell: pwsh
