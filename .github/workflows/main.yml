@@ -6,7 +6,7 @@ on:
 
 jobs:
   tests:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       AQUA_APP_VERSION: "0.0"
     steps:
@@ -30,6 +30,7 @@ jobs:
           $versions | Where-Object -FilterScript { $_ -gt 1 }
 
         if: contains(github.ref, 'release')
+        shell: pwsh
 
       # - name: Bump version and push tag
       #   id: tag_version
