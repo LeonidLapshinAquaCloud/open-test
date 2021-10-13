@@ -28,7 +28,7 @@ jobs:
           | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
 
-          if (${{ github.ref }} -contains "master") {
+          if ("${{ github.ref }}" -match "master") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -lt 100 } `
             | Measure-Object).Maximum
@@ -39,7 +39,7 @@ jobs:
             }
           }
 
-          if (${{ github.ref }} -contains "release") {
+          if ("${{ github.ref }}" -match "release") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 99 } `
             | Where-Object -FilterScript { $_ -lt 200 } `
@@ -51,7 +51,7 @@ jobs:
             }
           }
 
-          if (${{ github.ref }} -contains "feature") {
+          if ("${{ github.ref }}" -match "feature") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 199 } `
             | Measure-Object).Maximum
