@@ -27,7 +27,10 @@ jobs:
           | ForEach-Object {$_ -split "/"} `
           | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
-          $versions | Where-Object -FilterScript { $_ -gt 1 }
+
+          $versions `
+          | Where-Object -FilterScript { $_ -gt 1 } `
+          | measure-maximum
 
         if: contains(github.ref, 'release')
         shell: pwsh
