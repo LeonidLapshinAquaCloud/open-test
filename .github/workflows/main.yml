@@ -28,6 +28,7 @@ jobs:
           | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
           echo $versions
+          echo "---"
 
           if ("${{ github.ref }}" -match "master") {
             $latest = ($versions `
@@ -43,6 +44,12 @@ jobs:
 
           if ("${{ github.ref }}" -match "release") {
             echo "release branch"
+            echo "==="
+            ($versions `
+            | Where-Object -FilterScript { $_ -gt 99 } `
+            | Where-Object -FilterScript { $_ -lt 200 } `
+            | Measure-Object -Maximum).Maximum
+            echo "===="
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 99 } `
             | Where-Object -FilterScript { $_ -lt 200 } `
