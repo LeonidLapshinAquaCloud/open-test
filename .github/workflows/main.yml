@@ -43,7 +43,7 @@ jobs:
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 99 } `
             | Where-Object -FilterScript { $_ -lt 200 } `
-            | Measure-Object).Maximum
+            | Measure-Object -Maximum).Maximum
 
             if($latest -eq 199) {
               Write-Output "No new minor versions available"
