@@ -1,0 +1,22 @@
+[
+  {
+    "ref": "refs/tags/v0.0.1",
+    "node_id": "REF_kwDOGMsvD7ByZWZzL3RhZ3MvdjAuMC4x",
+    "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/refs/tags/v0.0.1",
+    "object": {
+      "sha": "24445cc5d2004292cc8779813711da069727c4fa",
+      "type": "tag",
+      "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/tags/24445cc5d2004292cc8779813711da069727c4fa"
+    }
+  },
+  {
+    "ref": "refs/tags/v0.0.2",
+    "node_id": "REF_kwDOGMsvD7ByZWZzL3RhZ3MvdjAuMC4y",
+    "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/refs/tags/v0.0.2",
+    "object": {
+      "sha": "4dec7bfb92a31099ceb5bce419b1c3fc16bc3345",
+      "type": "tag",
+      "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/tags/4dec7bfb92a31099ceb5bce419b1c3fc16bc3345"
+    }
+  }
+]

@@ -19,13 +19,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          echo '${{ steps.get_all_repo_tags.outputs.data }}' > full_tag_list.txt
-          echo "==="
-          cat full_tag_list.txt | jq '.[].ref' | ForEach-Object {$_ -replace '"',''} 
-          echo "==="
-          cat full_tag_list.txt | jq '.[].ref' | ForEach-Object {$_ -replace '"',''} | cut -d '/' -f 3 
-          echo "==="
-          cat full_tag_list.txt | jq '.[].ref' | ForEach-Object {$_ -replace '"',''} | cut -d '/' -f 3 | Select-String -Pattern "v${{ env.AQUA_APP_VERSION }}"
+          $versions = @()
+          echo '${{ steps.get_all_repo_tags.outputs.data }} > tags.json
+          Get-Content ./tags.json `
+          | jq '.[].ref' `
+          | ForEach-Object {$_ -replace '"',''} `
+          | ForEach-Object {$_ -split "/"} `
+          | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
+          | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
+          $versions | Where-Object -FilterScript { $_ -gt 1 }
+
         if: contains(github.ref, 'release')
 
       # - name: Bump version and push tag
