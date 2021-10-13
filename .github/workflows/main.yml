@@ -41,8 +41,9 @@ jobs:
         if: contains(github.ref, 'release')
         shell: pwsh
 
+      - run:  echo "LASTTAG=dsdsa" >> $GITHUB_ENV
+
       - run: echo "${{ env.LASTTAG }}"
-        shell: pwsh
 
       # - name: Bump version and push tag
       #   id: tag_version
