@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           $versions = @()
-          ${{ steps.get_all_repo_tags.outputs.data }} > tags.json
+          get-content ${{ steps.get_all_repo_tags.outputs.data }} > tags.json
           Get-Content ./tags.json `
           | jq '.[].ref' `
           | ForEach-Object {$_ -replace '"',''} `
