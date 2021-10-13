@@ -42,11 +42,13 @@ jobs:
           }
 
           if ("${{ github.ref }}" -match "release") {
+            echo "release branch"
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 99 } `
             | Where-Object -FilterScript { $_ -lt 200 } `
             | Measure-Object -Maximum).Maximum
             echo $latest
+            echo "==="
 
             if($latest -eq 199) {
               Write-Output "No new minor versions available"
@@ -68,6 +70,7 @@ jobs:
             }
           }
           echo $latest
+          echo "==="
           $latest++
           echo $latest
           $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
