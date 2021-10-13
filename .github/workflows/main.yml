@@ -44,18 +44,18 @@ jobs:
 
           if ("${{ github.ref }}" -match "release") {
             echo "release branch"
-            echo "==="
-            ($versions `
-            | Where-Object -FilterScript { $_ -gt 99 } `
-            | Where-Object -FilterScript { $_ -lt 200 } `
-            | Measure-Object -Maximum).Maximum
-            echo "===="
+            echo "---"
+            $versions.GetType()
+            echo $versions
+            echo "---"
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 99 } `
             | Where-Object -FilterScript { $_ -lt 200 } `
             | Measure-Object -Maximum).Maximum
+
+            echo "----"
             echo $latest
-            echo "==="
+            echo "----"
 
             if($latest -eq 199) {
               Write-Output "No new minor versions available"
