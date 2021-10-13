@@ -18,5 +18,35 @@
       "type": "tag",
       "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/tags/4dec7bfb92a31099ceb5bce419b1c3fc16bc3345"
     }
+  },
+  {
+    "ref": "refs/tags/v0.0.3-release-44.0",
+    "node_id": "REF_kwDOGMsvD71yZWZzL3RhZ3MvdjAuMC4zLXJlbGVhc2UtNDQuMA",
+    "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/refs/tags/v0.0.3-release-44.0",
+    "object": {
+      "sha": "405996d1227cea15194d141b353951acb93e6d53",
+      "type": "tag",
+      "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/tags/405996d1227cea15194d141b353951acb93e6d53"
+    }
+  },
+  {
+    "ref": "refs/tags/v0.0.101",
+    "node_id": "REF_kwDOGMsvD7JyZWZzL3RhZ3MvdjAuMC4xMDE",
+    "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/refs/tags/v0.0.101",
+    "object": {
+      "sha": "1dba5550919506cda60c270218e73b6fdceafc5f",
+      "type": "commit",
+      "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/commits/1dba5550919506cda60c270218e73b6fdceafc5f"
+    }
+  },
+  {
+    "ref": "refs/tags/v0.0.102-release-44.0",
+    "node_id": "REF_kwDOGMsvD79yZWZzL3RhZ3MvdjAuMC4xMDItcmVsZWFzZS00NC4w",
+    "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/refs/tags/v0.0.102-release-44.0",
+    "object": {
+      "sha": "7f182fdeb92c4273a390c03b5e038378d0f387e2",
+      "type": "tag",
+      "url": "https://api.github.com/repos/LeonidLapshinAquaCloud/open-test/git/tags/7f182fdeb92c4273a390c03b5e038378d0f387e2"
+    }
   }
 ]
