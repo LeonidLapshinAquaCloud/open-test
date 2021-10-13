@@ -35,10 +35,12 @@ jobs:
           $latest++
 
           $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + "$latest"
-          echo $tag
+          "TAG=$tag" >> $GITHUB_ENV
 
         if: contains(github.ref, 'release')
         shell: pwsh
+
+      - run: echo "${{ env.TAG }}"
 
       # - name: Bump version and push tag
       #   id: tag_version
