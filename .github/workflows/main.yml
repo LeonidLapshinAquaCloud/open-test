@@ -28,9 +28,14 @@ jobs:
           | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
 
-          $versions `
+          $latest = ($versions `
           | Where-Object -FilterScript { $_ -gt 1 } `
-          | Measure-Object -Maximum
+          | Measure-Object -Maximum).Maximum
+
+          $latest++
+
+          $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + "$latest"
+          echo $tag
 
         if: contains(github.ref, 'release')
         shell: pwsh
