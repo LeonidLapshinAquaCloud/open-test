@@ -41,7 +41,7 @@ jobs:
         if: contains(github.ref, 'release')
         shell: pwsh
 
-      - run: echo "${{ env.TAG }}"
+      - run: echo $TAG
 
       # - name: Bump version and push tag
       #   id: tag_version
