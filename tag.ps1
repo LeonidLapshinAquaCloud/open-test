@@ -22,7 +22,7 @@ elseif($latest -eq $NULL) {
 $latest++
 $tag = "v0.0" + "." + $latest.ToString()
 echo $tag
-
+ 
 
 
 
