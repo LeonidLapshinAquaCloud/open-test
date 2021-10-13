@@ -46,6 +46,10 @@ jobs:
             echo "release branch"
             echo "---"
             $versions.GetType()
+            echo "element type"
+            $versions[0].GetType()
+            $versions[1].GetType()
+            $versions[2].GetType()
             echo $versions
             echo "---"
             $latest = ($versions `
