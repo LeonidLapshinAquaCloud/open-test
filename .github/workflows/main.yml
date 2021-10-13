@@ -49,12 +49,19 @@ jobs:
               Write-Output "No new minor versions available"
               exit 1;
             }
+            elseif($latest -eq $NULL) {
+              $latest = 100
+            }
           }
 
           if ("${{ github.ref }}" -match "feature") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -gt 199 } `
             | Measure-Object).Maximum
+
+            if($latest -eq $NULL) {
+              $latest = 200
+            }
           }
 
           $latest++
