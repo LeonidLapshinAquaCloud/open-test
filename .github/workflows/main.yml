@@ -28,24 +28,42 @@ jobs:
           | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
 
-          $latest = ($versions `
-          | Where-Object -FilterScript { $_ -gt 1 } `
-          | Measure-Object -Maximum).Maximum
+          if (${{ github.ref }} -contains "master") {
+            $latest = ($versions `
+            | Where-Object -FilterScript { $_ -lt 100 } `
+            | Measure-Object).Maximum
+
+            if($latest -eq 99) {
+              Write-Output "No new minor versions available"
+              exit 1;
+            }
+          }
+
+          if (${{ github.ref }} -contains "release") {
+            $latest = ($versions `
+            | Where-Object -FilterScript { $_ -gt 99 } `
+            | Where-Object -FilterScript { $_ -lt 200 } `
+            | Measure-Object).Maximum
+
+            if($latest -eq 199) {
+              Write-Output "No new minor versions available"
+              exit 1;
+            }
+          }
+
+          if (${{ github.ref }} -contains "feature") {
+            $latest = ($versions `
+            | Where-Object -FilterScript { $_ -gt 199 } `
+            | Measure-Object).Maximum
+          }
 
           $latest++
-
           $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
-          echo $tag
-          echo "LASTTAG=v0.0.3" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
-        if: contains(github.ref, 'release')
+          echo "TAG=$tag" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
         shell: pwsh
 
-      - run: echo "${{ env.LASTTAG }}"
+      - run: echo "${{ env.TAG }}"
 
-      - run:  echo "LASTTAG=dsdsa" >> $GITHUB_ENV
-
-      - run: echo "${{ env.LASTTAG }}"
 
       # - name: Bump version and push tag
       #   id: tag_version
