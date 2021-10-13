@@ -30,7 +30,7 @@ jobs:
 
           $versions `
           | Where-Object -FilterScript { $_ -gt 1 } `
-          | measure-maximum
+          | Measure-Object -Maximum
 
         if: contains(github.ref, 'release')
         shell: pwsh
