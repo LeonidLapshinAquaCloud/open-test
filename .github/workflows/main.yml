@@ -7,7 +7,6 @@ on:
 jobs:
   tests:
     runs-on: windows-latest
-    env:
     steps:
       - run: |
           docker pull tobiasfenster/mssql-server-dev-unsupported
