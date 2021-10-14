@@ -6,72 +6,8 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
-      AQUA_APP_VERSION: "0.0"
     steps:
-      - uses: octokit/request-action@v2.x
-        id: get_all_repo_tags
-        with:
-          route: GET /repos/{owner}/{repo}/git/matching-refs/tags
-          owner: LeonidLapshinAquaCloud
-          repo: open-test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          $versions = @()
-          echo '${{ steps.get_all_repo_tags.outputs.data }}' > tags.json
-          Get-Content ./tags.json `
-          | jq '.[].ref' `
-          | ForEach-Object {$_ -replace '"',''} `
-          | ForEach-Object {$_ -split "/"} `
-          | Select-String -Pattern "^v${{ env.AQUA_APP_VERSION }}" `
-          | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
-
-          if ("${{ github.ref }}" -match "master") {
-            $latest = ($versions `
-            | Where-Object -FilterScript { $_ -as[int] -lt 100 } `
-            | Measure-Object -Maximum).Maximum
-
-            if($latest -eq 99) {
-              Write-Output "No new minor versions available"
-              exit 1;
-            }
-          }
-
-          if ("${{ github.ref }}" -match "release") {
-            $latest = ($versions `
-            | Where-Object -FilterScript { $_ -as[int] -gt 99 } `
-            | Where-Object -FilterScript { $_ -as[int] -lt 200 } `
-            | Measure-Object -Maximum).Maximum
-
-            if($latest -eq 199) {
-              Write-Output "No new minor versions available"
-              exit 1;
-            }
-            elseif($latest -eq $NULL) {
-              $latest = 100
-            }
-          }
-
-          if ("${{ github.ref }}" -match "feature") {
-            $latest = ($versions `
-            | Where-Object -FilterScript { $_ -as[int] -gt 199 } `
-            | Measure-Object -Maximum).Maximum
-
-            if($latest -eq $NULL) {
-              $latest = 200
-            }
-          }
-          $latest++
-          $tag = "v${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
-          echo "TAG=$tag" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-        shell: pwsh
-
-      - run: echo "${{ env.TAG }}"
-
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ env.TAG }}
-          name: ${{ env.TAG }}
+          docker pull tobiasfenster/mssql-server-dev-unsupported
