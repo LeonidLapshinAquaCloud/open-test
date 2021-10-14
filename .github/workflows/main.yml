@@ -9,4 +9,4 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: |
-          docker pull tobiasfenster/mssql-server-dev-unsupported
+          docker pull tobiasfenster/mssql-server-dev-unsupported:2019-cu13
