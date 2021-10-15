@@ -16,11 +16,7 @@ jobs:
         with:
           path: source
       - run: |
-          echo "${{ github.ref }}"
-      - run: |
-          echo ${GITHUB_REF#refs/heads/}
-          $(git rev-parse HEAD) -eq $(git rev-parse origin/${GITHUB_REF#refs/heads/})
+          echo '$(${{ github.ref }} -replace "refs/heads/", "")'
+          echo '$(git rev-parse origin/$(${{ github.ref }} -replace "refs/heads/", "")'
+          $(git rev-parse HEAD) -eq $(git rev-parse origin/$(${{ github.ref }} -replace "refs/heads/", ""))
         working-directory: source
-      - run: |
-          echo ${GITHUB_REF#refs/heads/}
-          $(git rev-parse HEAD) -eq $(git rev-parse origin/${GITHUB_REF#refs/heads/})
