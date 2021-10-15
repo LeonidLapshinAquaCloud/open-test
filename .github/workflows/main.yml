@@ -7,10 +7,12 @@ on:
         required: true
         default: 'development'
 
+env:
+  INPUT_FRONTEND_BRANCH: ${{ github.event.inputs.frontend_branch }}
+
 jobs:
   tests:
     runs-on: windows-latest
     steps:
       - run: |
-          ls env:
-          echo "${{ inputs.frontend_branch }}"
+          echo "${{ env.INPUT_FRONTEND_BRANCH }}"
