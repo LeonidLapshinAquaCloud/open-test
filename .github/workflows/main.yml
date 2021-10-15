@@ -1,12 +1,15 @@
-name: CI
-
+name: Create a distribution package
 on:
-  push:
-    branches: [ master, release*, feature* ]
+  workflow_dispatch:
+    inputs:
+      frontend_branch:
+        description: 'frontend branch'     
+        required: true
+        default: 'development'
 
 jobs:
   tests:
     runs-on: windows-latest
     steps:
       - run: |
-          docker pull tobiasfenster/mssql-server-dev-unsupported:2019-cu13
+          echo ${{ env.FRONTEND_BRANCH }}
