@@ -15,4 +15,5 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: |
-          echo "${{ env.INPUT_FRONTEND_BRANCH }}"
+          echo ${GITHUB_REF#refs/heads/}
+          $(git rev-parse HEAD) -eq $(git rev-parse origin/${GITHUB_REF#refs/heads/})
