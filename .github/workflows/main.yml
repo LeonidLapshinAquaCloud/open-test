@@ -11,6 +11,17 @@ jobs:
   tests:
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          path: source
+      - run: |
+          ls
+          pwd
+      - run: |
+          echo ${GITHUB_REF#refs/heads/}
+          $(git rev-parse HEAD) -eq $(git rev-parse origin/${GITHUB_REF#refs/heads/})
+        working-directory: source
       - run: |
           echo ${GITHUB_REF#refs/heads/}
           $(git rev-parse HEAD) -eq $(git rev-parse origin/${GITHUB_REF#refs/heads/})
