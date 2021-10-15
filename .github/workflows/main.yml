@@ -16,7 +16,7 @@ jobs:
         with:
           path: source
       - run: |
-          echo "${{ github.head_ref }}"
+          echo "${{ github.ref }}"
       - run: |
           echo ${GITHUB_REF#refs/heads/}
           $(git rev-parse HEAD) -eq $(git rev-parse origin/${GITHUB_REF#refs/heads/})
