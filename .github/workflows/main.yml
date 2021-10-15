@@ -16,7 +16,7 @@ jobs:
         with:
           path: source
       - run: |
-          echo '$(${{ github.ref }} -replace "refs/heads/", "")'
+          echo '$("${{ github.ref }}" -replace "refs/heads/", "")'
           echo '$(git rev-parse origin/$("${{ github.ref }}" -replace "refs/heads/", "")'
           $(git rev-parse HEAD) -eq $(git rev-parse origin/$("${{ github.ref }}" -replace "refs/heads/", ""))
         working-directory: source
