@@ -12,4 +12,5 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: |
+          ls env:
           echo "${{ env.INPUT_FRONTEND_BRANCH }}"
