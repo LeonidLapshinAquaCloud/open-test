@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  TAG: "2.2.2"
+  TAG: "2.2.3"
 
 jobs:
   tests:
@@ -16,17 +16,26 @@ jobs:
         with:
           path: source
 
-      - name: getVersion
-        run: echo "${{ context.repo.repo }}"
+      - name: Create tag
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/${{ env.TAG }}",
+              sha: context.sha
+            })
 
-      # - name: Create tag
-      #   uses: actions/github-script@v3
-      #   with:
-      #     github-token: ${{ github.token }}
-      #     script: |
-      #       github.git.createRef({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         ref: "refs/tags/${{ env.TAG }}",
-      #         sha: context.sha
-      #       })
+      - name: Create tag
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.open2token }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: "LeonidLapshinAquaCloud/open-test2",
+              ref: "refs/tags/${{ env.TAG }}",
+              sha: context.sha
+            })
