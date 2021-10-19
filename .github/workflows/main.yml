@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  TAG: "2.2.3"
+  TAG: "2.2.4"
 
 jobs:
   tests:
@@ -35,7 +35,7 @@ jobs:
           script: |
             github.git.createRef({
               owner: context.repo.owner,
-              repo: "LeonidLapshinAquaCloud/open-test2",
+              repo: "open-test2",
               ref: "refs/tags/${{ env.TAG }}",
               sha: context.sha
             })
