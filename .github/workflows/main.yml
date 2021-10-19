@@ -43,5 +43,5 @@ jobs:
               owner: context.repo.owner,
               repo: "open-test2",
               ref: "refs/tags/${{ env.TAG }}",
-              sha: ${{ env.WEBNG_SHA }}
+              sha: "${{ env.WEBNG_SHA }}"
             })
