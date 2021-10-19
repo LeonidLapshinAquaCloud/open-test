@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  INPUT_FRONTEND_BRANCH: ${{ github.event.inputs.frontend_branch }}
+  TAG: "2.2.2"
 
 jobs:
   tests:
@@ -15,8 +15,15 @@ jobs:
         uses: actions/checkout@v2.3.4
         with:
           path: source
-      - run: |
-          $branch = $("${{ github.ref }}" -replace "refs/heads/", "")
-          write-output $branch
-          $(git rev-parse HEAD) -eq $(git rev-parse origin/$branch)
-        working-directory: source
+          
+      - name: Create tag
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/${{ env.TAG }}",
+              sha: context.sha
+            })
