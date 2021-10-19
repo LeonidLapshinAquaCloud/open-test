@@ -37,5 +37,4 @@ jobs:
               owner: context.repo.owner,
               repo: "open-test2",
               ref: "refs/tags/${{ env.TAG }}",
-              sha: context.sha
             })
