@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  TAG: "2.2.14"
+  TAG: "21.2"
 
 jobs:
   tests:
@@ -21,7 +21,7 @@ jobs:
         with:
           route: GET /repos/{owner}/{repo}/git/matching-refs/tags
           owner: LeonidLapshinAquaCloud
-          repo: open-test
+          repo: aqua-backend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -37,5 +37,18 @@ jobs:
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
 
           if ("${{ github.ref }}" -match "master") {
-            echo $versions
+            $latest = ($versions `
+            | Where-Object -FilterScript { $_ -as[int] -lt 100 } `
+            | Measure-Object -Maximum).Maximum
+
+            if($latest -eq 99) {
+              Write-Output "No new minor versions available"
+              exit 1;
+            }
+            elseif($latest -eq $NULL) {
+              $latest = 0
+            }
           }
+          $latest++
+          $tag = "${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
+          echo $tag
