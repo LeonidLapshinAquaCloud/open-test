@@ -13,7 +13,7 @@ jobs:
 
       - name: Calculate tag version
         run: |
-          choco install advance-installer
+          choco install advanced-installer
           Start-Process -Wait -FilePath "${{ env.ADVANCED_INSTALLER}}"
           echo "==="
           Start-Process -Wait -FilePath ${{ env.ADVANCED_INSTALLER}}
