@@ -16,6 +16,26 @@ jobs:
         with:
           path: source
 
-      - name: getVersion
+      - uses: octokit/request-action@v2.x
+        id: get_all_repo_tags
+        with:
+          route: GET /repos/{owner}/{repo}/git/matching-refs/tags
+          owner: andagon
+          repo: aqua-backend
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Calculate tag version
         run: |
-          if ("${{ github.ref }}" -match "master") {echo "dsfsd"}
+          $versions = @()
+          echo '${{ steps.get_all_repo_tags.outputs.data }}' > tags.json
+          Get-Content ./tags.json `
+          | jq '.[].ref' `
+          | ForEach-Object {$_ -replace '"',''} `
+          | ForEach-Object {$_ -split "/"} `
+          | Select-String -Pattern "^${{ env.AQUA_APP_VERSION }}" `
+          | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
+
+          if ("${{ github.ref }}" -match "master") {
+            echo $versions
+          }
