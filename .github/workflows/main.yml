@@ -36,6 +36,7 @@ jobs:
           | Select-String -Pattern "^${{ env.AQUA_APP_VERSION }}" `
           | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
 
+
           if ("${{ github.ref }}" -match "master") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -as[int] -lt 100 } `
@@ -47,6 +48,31 @@ jobs:
             }
             elseif($latest -eq $NULL) {
               $latest = 0
+            }
+          }
+
+          if ("${{ github.ref }}" -match "release") {
+            $latest = ($versions `
+            | Where-Object -FilterScript { $_ -as[int] -gt 99 } `
+            | Where-Object -FilterScript { $_ -as[int] -lt 200 } `
+            | Measure-Object -Maximum).Maximum
+
+            if($latest -eq 199) {
+              Write-Output "No new minor versions available"
+              exit 1;
+            }
+            elseif($latest -eq $NULL) {
+              $latest = 100
+            }
+          }
+
+          else {
+            $latest = ($versions `
+            | Where-Object -FilterScript { $_ -as[int] -gt 199 } `
+            | Measure-Object -Maximum).Maximum
+
+            if($latest -eq $NULL) {
+              $latest = 200
             }
           }
           $latest++
