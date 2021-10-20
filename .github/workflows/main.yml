@@ -20,8 +20,8 @@ jobs:
         id: get_all_repo_tags
         with:
           route: GET /repos/{owner}/{repo}/git/matching-refs/tags
-          owner: andagon
-          repo: aqua-backend
+          owner: LeonidLapshinAquaCloud
+          repo: open-test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
