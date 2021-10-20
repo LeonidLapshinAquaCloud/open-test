@@ -51,7 +51,7 @@ jobs:
             }
           }
 
-          elif ("${{ github.ref }}" -match "release") {
+          elseif ("${{ github.ref }}" -match "release") {
             $latest = ($versions `
             | Where-Object -FilterScript { $_ -as[int] -gt 99 } `
             | Where-Object -FilterScript { $_ -as[int] -lt 200 } `
