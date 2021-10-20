@@ -4,77 +4,17 @@ on:
     branches:
       - master
 
-env:
-  TAG: "21.2"
+    env:
+      ADVANCED_INSTALLER: 'C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\advinst.exe'
 
 jobs:
   tests:
     runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-        with:
-          path: source
-
-      - uses: octokit/request-action@v2.x
-        id: get_all_repo_tags
-        with:
-          route: GET /repos/{owner}/{repo}/git/matching-refs/tags
-          owner: LeonidLapshinAquaCloud
-          repo: open-test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Calculate tag version
         run: |
-          $versions = @()
-          echo '${{ steps.get_all_repo_tags.outputs.data }}' > tags.json
-          Get-Content ./tags.json `
-          | jq '.[].ref' `
-          | ForEach-Object {$_ -replace '"',''} `
-          | ForEach-Object {$_ -split "/"} `
-          | Select-String -Pattern "^${{ env.AQUA_APP_VERSION }}" `
-          | ForEach-Object {$_ -match "v\d.\d.(?<version>.+)" | Out-Null; $versions += $Matches.version} 
-
-
-          if ("${{ github.ref }}" -match "master") {
-            $latest = ($versions `
-            | Where-Object -FilterScript { $_ -as[int] -lt 100 } `
-            | Measure-Object -Maximum).Maximum
-
-            if($latest -eq 99) {
-              Write-Output "No new minor versions available"
-              exit 1;
-            }
-            elseif($latest -eq $NULL) {
-              $latest = 0
-            }
-          }
-
-          elseif ("${{ github.ref }}" -match "release") {
-            $latest = ($versions `
-            | Where-Object -FilterScript { $_ -as[int] -gt 99 } `
-            | Where-Object -FilterScript { $_ -as[int] -lt 200 } `
-            | Measure-Object -Maximum).Maximum
-
-            if($latest -eq 199) {
-              Write-Output "No new minor versions available"
-              exit 1;
-            }
-            elseif($latest -eq $NULL) {
-              $latest = 100
-            }
-          }
-
-          else {
-            $latest = ($versions `
-            | Where-Object -FilterScript { $_ -as[int] -gt 199 } `
-            | Measure-Object -Maximum).Maximum
-
-            if($latest -eq $NULL) {
-              $latest = 200
-            }
-          }
-          $latest++
-          $tag = "${{ env.AQUA_APP_VERSION }}" + "." + $latest.ToString()
-          echo $tag
+          choco install advance-installer
+          Start-Process -Wait -FilePath "${{ env.ADVANCED_INSTALLER}}"
+          echo "==="
+          Start-Process -Wait -FilePath ${{ env.ADVANCED_INSTALLER}}
