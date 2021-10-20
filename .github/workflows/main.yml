@@ -21,7 +21,7 @@ jobs:
         with:
           route: GET /repos/{owner}/{repo}/git/matching-refs/tags
           owner: LeonidLapshinAquaCloud
-          repo: aqua-backend
+          repo: open-test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
