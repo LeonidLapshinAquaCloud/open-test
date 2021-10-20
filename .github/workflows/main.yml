@@ -16,32 +16,6 @@ jobs:
         with:
           path: source
 
-      - name: Create tag
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ github.token }}
-          script: |
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/${{ env.TAG }}",
-              sha: context.sha
-            })
-
       - name: getVersion
         run: |
-          $sha = $(git ls-remote https://github.com/LeonidLapshinAquaCloud/open-test2.git HEAD).substring(0, 40)
-          echo $sha
-          echo "WEBNG_SHA=$sha" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
-      - name: Create tag
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ secrets.open2token }}
-          script: |
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: "open-test2",
-              ref: "refs/tags/${{ env.TAG }}",
-              sha: "${{ env.WEBNG_SHA }}"
-            })
+          if ("${{ github.ref }}" -match "master") {echo "dsfsd"}
