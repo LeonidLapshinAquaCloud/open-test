@@ -8,12 +8,12 @@ jobs:
   tests:
     runs-on: windows-latest
     env:
-      ADVANCED_INSTALLER: 'advinst.exe'
+      ADVANCED_INSTALLER: 'C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\advinst.exe'
     steps:
 
       - name: Calculate tag version
         run: |
-          choco install advanced-installer
+          choco install advanced-installer --version 18.7
           Start-Process -Wait -FilePath "${{ env.ADVANCED_INSTALLER}}"
           echo "==="
           Start-Process -Wait -FilePath ${{ env.ADVANCED_INSTALLER}}
