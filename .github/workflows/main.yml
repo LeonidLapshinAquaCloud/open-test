@@ -16,10 +16,5 @@ jobs:
           path: source
         
       - run: |
-          date > generated.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
-          git push
-        working-directory: source
+          $sha = $(git ls-remote https://github.com/LeonidLapshinAquaCloud/open-test2.git HEAD).substring(0, 40)
+          echo "WEBNG_SHA=$sha"
