@@ -13,7 +13,4 @@ jobs:
 
       - name: Calculate tag version
         run: |
-          choco install advanced-installer --version 18.7
-          test-path "${{ env.ADVANCED_INSTALLER}}"
-          echo "==="
-          Start-Process -Wait -FilePath ${{ env.ADVANCED_INSTALLER}}
+          git --version
