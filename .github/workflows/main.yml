@@ -21,4 +21,3 @@ jobs:
       - run: |
           $sha = $(git ls-remote https://github.com/andagon/aquawebngvue.git HEAD).substring(0, 40)
           echo "WEBNG_SHA=$sha"
-        working-directory: aquawebngvue
