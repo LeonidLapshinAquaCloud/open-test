@@ -1,23 +1,20 @@
 name: Create a distribution package
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
+  workflow_call:
+    inputs:
+      testvar:
+        description: 'test'
+        default: 'main-default-value'
+        required: true
+        type: string
 
 jobs:
   tests:
     runs-on: windows-latest
     env:
-      ADVANCED_INSTALLER: 'C:\Program Files (x86)\Caphyon\Advanced Installer 18.7\bin\x86\advinst.exe'
-    steps:
-
-      - name: Checkout aquawebngvue
-        uses: actions/checkout@v2
-        with:
-          repository: andagon/aquawebngvue
-          path: aquawebngvue
-          token: ${{ secrets.WEBNG_TOKEN }}
-        
-      - run: |
-          $sha = $(git ls-remote https://github.com/andagon/aquawebngvue.git HEAD).substring(0, 40)
-          echo "WEBNG_SHA=$sha"
+      BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.INPUT_FRONTEND_BRANCH }}
+    steps:        
+      - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"

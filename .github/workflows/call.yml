@@ -1,0 +1,20 @@
+name: Caller
+on:
+  workflow_dispatch:
+    inputs:
+      testvar:
+        description: 'test'
+        default: 'caller-default-value'
+        required: true
+        type: string
+jobs:
+  call-tests:
+    env:
+      BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.INPUT_FRONTEND_BRANCH }}
+    runs-on: windows-latest
+    steps:        
+      - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"
+  call-main:
+    uses: LeonidLapshin/open-test/.github/workflows/main.yml
+    with:
+      testvar: "provided-value"
