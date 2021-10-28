@@ -10,7 +10,7 @@ on:
 jobs:
   call-tests:
     env:
-      BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.INPUT_FRONTEND_BRANCH }}
+      BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
     runs-on: windows-latest
     steps:        
       - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"
