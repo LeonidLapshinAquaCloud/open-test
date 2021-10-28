@@ -15,6 +15,6 @@ jobs:
     steps:        
       - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"
   call-main:
-    uses: LeonidLapshin/open-test/.github/workflows/main.yml@master
+    uses: LeonidLapshinAquaCloud/open-test/.github/workflows/main.yml@master
     with:
       testvar: "provided-value"
