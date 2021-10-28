@@ -8,13 +8,9 @@ on:
         required: true
         type: string
 jobs:
-  call-tests:
+  call-main:
     env:
       BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
-    runs-on: windows-latest
-    steps:        
-      - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"
-  call-main:
     uses: LeonidLapshinAquaCloud/open-test/.github/workflows/main.yml@master
-    # with:
-    #   testvar: "provided-value"
+    with:
+      testvar: ${{ env.BRANCHAQUAWEBNGVUE }}
