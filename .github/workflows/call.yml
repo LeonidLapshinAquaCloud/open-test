@@ -23,7 +23,7 @@ jobs:
           script: |
             github.git.createRef({
               owner: context.repo.owner,
-              repo: "aqua-infra",
+              repo: context.repo,
               ref: "refs/heads/testbranch",
               sha: context.sha
             })
