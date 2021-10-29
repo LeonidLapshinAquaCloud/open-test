@@ -8,7 +8,21 @@ on:
         required: true
         type: string
 jobs:
-  call-main:
-    uses: LeonidLapshinAquaCloud/open-test/.github/workflows/main.yml@master
-    with:
-      testvar: ${{ github.event.inputs.testvar }} 
+  # call-main:
+  #   uses: LeonidLapshinAquaCloud/open-test/.github/workflows/main.yml@master
+  #   with:
+  #     testvar: ${{ github.event.inputs.testvar }} 
+
+  create-branch:
+    steps:
+      - name: Create branch
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: "aqua-infra",
+              ref: "refs/heads/testbranch,
+              sha: context.sha
+            })
