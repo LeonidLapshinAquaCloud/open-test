@@ -14,6 +14,7 @@ jobs:
   #     testvar: ${{ github.event.inputs.testvar }} 
 
   create-branch:
+    runs-on: windows-latest
     steps:
       - name: Create branch
         uses: actions/github-script@v3
