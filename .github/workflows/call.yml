@@ -24,6 +24,6 @@ jobs:
             github.git.createRef({
               owner: context.repo.owner,
               repo: "aqua-infra",
-              ref: "refs/heads/testbranch,
+              ref: "refs/heads/testbranch",
               sha: context.sha
             })
