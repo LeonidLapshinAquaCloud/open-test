@@ -11,5 +11,5 @@ jobs:
       BRANCHAQUAWEBNGVUE: "dfsdfds"
     steps:        
       - name: Check if push
-        if: github.event_name == 'push'
+        if: github.event_name != 'push'
         run: echo $BRANCHAQUAWEBNGVUE
