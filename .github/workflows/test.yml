@@ -10,4 +10,6 @@ jobs:
     env:
       BRANCHAQUAWEBNGVUE: "dfsdfds"
     steps:        
-      - run: echo $BRANCHAQUAWEBNGVUE
+      - name: Check if push
+        if: github.event_name == 'push'
+        run: echo $BRANCHAQUAWEBNGVUE
