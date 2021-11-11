@@ -1,20 +1,20 @@
 name: Caller
 on:
   workflow_dispatch:
-    inputs:
-      testvar:
-        description: 'test'
-        default: 'caller-default-value'
-        required: true
-        type: string
+    # inputs:
+    #   testvar:
+    #     description: 'test'
+    #     default: 'caller-default-value'
+    #     required: true
+    #     type: string
 jobs:
-  # call-main:
-  #   uses: LeonidLapshinAquaCloud/open-test/.github/workflows/main.yml@master
-  #   with:
-  #     testvar: ${{ github.event.inputs.testvar }} 
+  call-main:
+    uses: LeonidLapshinAquaCloud/open-test/.github/workflows/main.yml@master
+    # with:
+    #   testvar: ${{ github.event.inputs.testvar }} 
 
   create-branch:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Create branch
         uses: actions/github-script@v3
@@ -27,3 +27,27 @@ jobs:
               ref: "refs/heads/testbranch",
               sha: context.sha
             })
+  
+  check-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the tag from distribution job 
+        uses: actions/download-artifact@v2
+        with:
+          name: tag
+
+      - name: Download the tag from distribution job
+        shell: pwsh
+        run: |
+          ls
+
+      - name: Download the tag from distribution job
+        shell: pwsh
+        run: |
+          cat ./tag.txt
+          echo "INFRA_VERSION=$(cat ./tag.txt)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+      - name: Check var
+        shell: pwsh
+        run: |
+          echo "${{ env.INFRA_VERSION }}"

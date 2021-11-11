@@ -1,9 +1,9 @@
 name: Create a distribution package
 on:
-  push:
-    branches:
-      - master
-  # workflow_call:
+  # push:
+  #   branches:
+  #     - master
+  workflow_call:
   #   inputs:
   #     testvar:
   #       description: 'test'
@@ -17,10 +17,13 @@ jobs:
     # env:
     #   BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
     steps:        
-      - name: Checkout test
-        uses: actions/checkout@v2
-        with:
-          path: aquawebngvue
-          ref: test-checkout-11
+      - name: Create artifact with version number 
+        run: |
+          echo "444" > tag.txt
+        shell: pwsh
 
-      - run: ls -la ./aquawebngvue
+      - name: Create artifact with version number 
+        uses: actions/upload-artifact@v2
+        with:
+          name: tag
+          path: tag.txt
