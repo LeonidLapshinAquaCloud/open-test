@@ -13,22 +13,23 @@ jobs:
     # with:
     #   testvar: ${{ github.event.inputs.testvar }} 
 
-  create-branch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create branch
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ github.token }}
-          script: |
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/heads/testbranch",
-              sha: context.sha
-            })
+  # create-branch:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Create branch
+  #       uses: actions/github-script@v3
+  #       with:
+  #         github-token: ${{ github.token }}
+  #         script: |
+  #           github.git.createRef({
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #             ref: "refs/heads/testbranch",
+  #             sha: context.sha
+  #           })
   
   check-artifact:
+    needs: call-main
     runs-on: ubuntu-latest
     steps:
       - name: Download the tag from distribution job 
