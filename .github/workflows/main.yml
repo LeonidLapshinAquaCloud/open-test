@@ -1,20 +1,26 @@
 name: Create a distribution package
 on:
-  # push:
-  #   branches:
-  #     - master
-  workflow_call:
-    inputs:
-      testvar:
-        description: 'test'
-        default: 'main-default-value'
-        required: true
-        type: string
+  push:
+    branches:
+      - master
+  # workflow_call:
+  #   inputs:
+  #     testvar:
+  #       description: 'test'
+  #       default: 'main-default-value'
+  #       required: true
+  #       type: string
 
 jobs:
   tests:
-    runs-on: windows-latest
-    env:
-      BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
+    runs-on: ubutu-latest
+    # env:
+    #   BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
     steps:        
-      - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"
+      - name: Checkout test
+        uses: actions/checkout@v2
+        with:
+          path: aquawebngvue
+          ref: test-checkout-11
+
+      - run: ls -la ./aquawebngvue
