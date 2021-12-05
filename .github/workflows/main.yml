@@ -21,7 +21,7 @@ jobs:
     env:
       frontend: ${{ github.event.inputs.frontend }}
     outputs:
-      frontend-on-push: ${{ steps.fix.outputs.frontend-on-push }}
+      fixed_frontend: ${{ steps.fix.outputs.fixed_frontend }}
     steps:
       - name: Set proper frontend branch based on input or use default value
         id: fix
