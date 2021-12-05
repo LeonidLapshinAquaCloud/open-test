@@ -32,7 +32,7 @@ jobs:
             $fixed_frontend = "gggggg"
           }
           Write-Output $env:frontend
-          Write-Output "::set-output fixed_frontend=$fixed_frontend::false"
+          Write-Output "::set-output name=fixed_frontend::$fixed_frontend"
         shell: pwsh
 
   run-distribution:
