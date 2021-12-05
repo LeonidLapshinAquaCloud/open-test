@@ -1,29 +1,44 @@
-name: Create a distribution package
+name: Create environment from branch
 on:
-  # push:
-  #   branches:
-  #     - master
-  workflow_call:
-  #   inputs:
-  #     testvar:
-  #       description: 'test'
-  #       default: 'main-default-value'
-  #       required: true
-  #       type: string
+  workflow_dispatch:
+    inputs:
+      frontend:
+        description: 'frontend branch'
+        default: 'development'
+        required: true
+        type: string
+  push:
+    branches:
+      - master
+
+concurrency: 
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
-  tests:
+  set-branch:
     runs-on: ubuntu-latest
-    # env:
-    #   BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
-    steps:        
-      - name: Create artifact with version number 
+    env:
+      frontend: ${{ github.event.inputs.frontend }}
+    outputs:
+      frontend-on-push: ${{ steps.fix.outputs.frontend-on-push }}
+    steps:
+      - name: Set proper frontend branch based on input or use default value
+        id: fix
         run: |
-          echo "444" > tag.txt
+          if($env:frontend -eq '') {
+            $frontend-on-push = $env:gggggggggggg
+          } else {
+            $frontend-on-push = default
+          }
+          Write-Output "::set-output frontend-on-push=$frontend-on-push::false"
         shell: pwsh
 
-      - name: Create artifact with version number 
-        uses: actions/upload-artifact@v2
-        with:
-          name: tag
-          path: tag.txt
+  run-distribution:
+    needs: set-branch
+    runs-on: ubuntu-latest
+    env:
+      bbb: ${{needs.set-branch.outputs.frontend-on-push}}
+    steps:
+      - name: check
+        run: echo ${{ env.bbb }}
