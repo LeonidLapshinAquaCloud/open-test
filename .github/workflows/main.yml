@@ -27,18 +27,18 @@ jobs:
         id: fix
         run: |
           if($env:frontend -eq '') {
-            $frontend-on-push = $env:gggggggggggg
+            $fixed_frontend = $env:frontend
           } else {
-            $frontend-on-push = default
+            $fixed_frontend = "gggggg"
           }
-          Write-Output "::set-output frontend-on-push=$frontend-on-push::false"
+          Write-Output "::set-output fixed_frontend=$fixed_frontend::false"
         shell: pwsh
 
   run-distribution:
     needs: set-branch
     runs-on: ubuntu-latest
     env:
-      bbb: ${{needs.set-branch.outputs.frontend-on-push}}
+      bbb: ${{needs.set-branch.outputs.fixed_frontend}}
     steps:
       - name: check
         run: echo ${{ env.bbb }}
