@@ -26,11 +26,12 @@ jobs:
       - name: Set proper frontend branch based on input or use default value
         id: fix
         run: |
-          if($env:frontend -eq '') {
+          if($env:frontend) {
             $fixed_frontend = $env:frontend
           } else {
             $fixed_frontend = "gggggg"
           }
+          Write-Output $env:frontend
           Write-Output "::set-output fixed_frontend=$fixed_frontend::false"
         shell: pwsh
 
