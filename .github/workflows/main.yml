@@ -1,45 +1,35 @@
 name: Create environment from branch
 on:
-  workflow_dispatch:
-    inputs:
-      frontend:
-        description: 'frontend branch'
-        default: 'development'
-        required: true
-        type: string
   push:
     branches:
       - master
 
-concurrency: 
-  group: master
-  cancel-in-progress: true
-
 jobs:
   set-branch:
-    runs-on: ubuntu-latest
-    env:
-      frontend: ${{ github.event.inputs.frontend }}
-    outputs:
-      fixed_frontend: ${{ steps.fix.outputs.fixed_frontend }}
+    runs-on: windows-latest
     steps:
       - name: Set proper frontend branch based on input or use default value
         id: fix
         run: |
-          if($env:frontend) {
-            $fixed_frontend = $env:frontend
-          } else {
-            $fixed_frontend = "gggggg"
-          }
-          Write-Output $env:frontend
-          Write-Output "::set-output name=fixed_frontend::$fixed_frontend"
-        shell: pwsh
+          echo "dfd" >> 1.msi
+
+      - name: Create artifact with version number 
+        uses: actions/upload-artifact@v2
+        with:
+          name: 1.msi
+          path: 1.msi
 
   run-distribution:
     needs: set-branch
-    runs-on: ubuntu-latest
-    env:
-      bbb: ${{needs.set-branch.outputs.fixed_frontend}}
+    runs-on: windows-latest
     steps:
-      - name: check
-        run: echo ${{ env.bbb }}
+      - name: Set proper frontend branch based on input or use default value
+        id: fix
+        run: |
+          mkdir 2
+
+      - name: Download the client msi from the separate job
+        uses: actions/download-artifact@v2
+        with:
+          name: 1.msi
+          path: ./2/
