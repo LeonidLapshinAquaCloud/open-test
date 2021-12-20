@@ -32,8 +32,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: 1.msi
-          path: ./2/
+          path: ./2/3/
 
       - name: Set proper frontend branch based on input or use default value
         run: |
           ls 2
+          ls 2/3
