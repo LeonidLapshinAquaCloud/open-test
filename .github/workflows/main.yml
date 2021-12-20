@@ -33,3 +33,7 @@ jobs:
         with:
           name: 1.msi
           path: ./2/
+
+      - name: Set proper frontend branch based on input or use default value
+        run: |
+          ls 2
