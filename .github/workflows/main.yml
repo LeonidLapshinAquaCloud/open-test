@@ -14,6 +14,8 @@ jobs:
 
     - name: Ipdate all branches based on template
       run: |
+        git config --global user.name 'Github'
+        git config --global user.email 'AquaActions@users.noreply.github.com'
         git config --global pager.branch false
         git branch -a `
         | where { $_.Trim().StartsWith('remotes/origin/') } `
@@ -22,6 +24,6 @@ jobs:
         | foreach { 
           git checkout $_;
           git merge -Xours master;
-          git push origin;
+          git push -u origin HEAD;
         } 
       shell: pwsh
