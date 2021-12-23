@@ -1,20 +1,29 @@
-name: Create a distribution package
+name: Create environment from branch
 on:
-  # push:
-  #   branches:
-  #     - master
-  workflow_call:
-    inputs:
-      testvar:
-        description: 'test'
-        default: 'main-default-value'
-        required: true
-        type: string
+  push:
+    branches:
+      - master
 
 jobs:
-  tests:
-    runs-on: windows-latest
-    env:
-      BRANCHAQUAWEBNGVUE: ${{ github.event.inputs.testvar }}
-    steps:        
-      - run: echo "${{ env.BRANCHAQUAWEBNGVUE }}"
+  set-branch:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Ipdate all branches based on template
+      run: |
+        git config --global user.name 'Github'
+        git config --global user.email 'AquaActions@users.noreply.github.com'
+        git config --global pager.branch false
+        git branch -a `
+        | where { $_.Trim().StartsWith('remotes/origin/') } `
+        | where { ! $_.Trim().Equals('remotes/origin/master') } `
+        | % { $_.Trim().Replace("remotes/origin/", "") } `
+        | foreach { 
+          git checkout $_;
+          git merge -Xours master;
+          git push -u origin HEAD;
+        } 
+      shell: pwsh
