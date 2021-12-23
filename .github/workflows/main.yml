@@ -6,35 +6,20 @@ on:
 
 jobs:
   set-branch:
-    runs-on: windows-latest
-    steps:
-      - name: Set proper frontend branch based on input or use default value
-        id: fix
-        run: |
-          echo "dfd" >> 1.msi
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-      - name: Create artifact with version number 
-        uses: actions/upload-artifact@v2
-        with:
-          name: 1.msi
-          path: 1.msi
-
-  run-distribution:
-    needs: set-branch
-    runs-on: windows-latest
-    steps:
-      - name: Set proper frontend branch based on input or use default value
-        id: fix
-        run: |
-          mkdir 2
-
-      - name: Download the client msi from the separate job
-        uses: actions/download-artifact@v2
-        with:
-          name: 1.msi
-          path: ./2/3/
-
-      - name: Set proper frontend branch based on input or use default value
-        run: |
-          ls 2
-          ls 2/3
+    - name: Ipdate all branches based on template
+      run: |
+        git config --global pager.branch false
+        git branch -a `
+        | where { $_.Trim().StartsWith('remotes/origin/') } `
+        | where { ! $_.Trim().Equals('remotes/origin/master') } `
+        | % { $_.Trim().Replace("remotes/origin/", "") } `
+        | foreach { 
+          git checkout $_;
+          git merge -Xours master;
+          git push origin;
+        } 
+      shell: pwsh
