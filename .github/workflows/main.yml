@@ -10,20 +10,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 0
+        repository: LeonidLapshinAquaCloud/open-test
+        path: aqua-infra
+        ref: test-checkout-11
 
     - name: Ipdate all branches based on template
       run: |
-        git config --global user.name 'Github'
-        git config --global user.email 'AquaActions@users.noreply.github.com'
-        git config --global pager.branch false
-        git branch -a `
-        | where { $_.Trim().StartsWith('remotes/origin/') } `
-        | where { ! $_.Trim().Equals('remotes/origin/master') } `
-        | % { $_.Trim().Replace("remotes/origin/", "") } `
-        | foreach { 
-          git checkout $_;
-          git merge -Xours master;
-          git push -u origin HEAD;
-        } 
+        echo "---"
+        # git config --global user.name 'Github'
+        # git config --global user.email 'AquaActions@users.noreply.github.com'
+        # git config --global pager.branch false
+        # git branch -a `
+        # | where { $_.Trim().StartsWith('remotes/origin/') } `
+        # | where { ! $_.Trim().Equals('remotes/origin/master') } `
+        # | % { $_.Trim().Replace("remotes/origin/", "") } `
+        # | foreach { 
+        #   git checkout $_;
+        #   git merge -Xours master;
+        #   git push -u origin HEAD;
+        # } 
       shell: pwsh
